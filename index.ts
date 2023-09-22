@@ -1,4 +1,5 @@
 import { context, getOctokit } from "@actions/github";
+import { defaults as defaultGitHubOptions } from "@actions/github/lib/utils";
 import * as core from "@actions/core";
 import fs from "fs";
 
@@ -9,9 +10,7 @@ async function main(): Promise<void> {
   const token = process.env.GITHUB_ACCESS_TOKEN as string;
   const script = process.env.SCRIPT as string;
 
-  console.log(context);
-
-  const github = getOctokit(token);
+  const github = getOctokit(token, { request: defaultGitHubOptions });
 
   const result = await github.rest.repos.getContent({
     mediaType: {
