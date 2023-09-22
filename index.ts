@@ -15,7 +15,6 @@ async function main(): Promise<void> {
     token,
     {
       ...defaultGitHubOptions,
-      log: console,
       retry: { enabled: false },
       request: { ...defaultGitHubOptions.request, timeout: 10000 },
     },
