@@ -3,6 +3,7 @@ import { defaults as defaultGitHubOptions } from "@actions/github/lib/utils";
 import { requestLog } from "@octokit/plugin-request-log";
 import * as core from "@actions/core";
 import fs from "fs";
+import fetch from "node-fetch";
 
 process.on("unhandledRejection", handleError);
 main().catch(handleError);
@@ -37,6 +38,7 @@ async function main(): Promise<void> {
     github,
     context,
     core,
+    fetch,
   });
 }
 
