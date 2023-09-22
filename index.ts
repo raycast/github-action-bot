@@ -16,16 +16,20 @@ async function main(): Promise<void> {
     request: { ...defaultGitHubOptions, timeout: 10000 },
   });
 
-  const result = await github.rest.repos.getContent({
-    mediaType: {
-      format: "raw",
-    },
-    owner: context.repo.owner,
-    repo: context.repo.repo,
-    path: script,
-  });
+  const result = await Promise.race([
+    timeout(10000),
+    github.rest.repos.getContent({
+      mediaType: {
+        format: "raw",
+      },
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      path: script,
+    }),
+  ]);
 
   console.log(result.data);
+  process.exit(0);
 
   // // @ts-ignore
   // fs.writeFileSync("./bot.ts", result.data);
@@ -42,6 +46,10 @@ async function main(): Promise<void> {
 function handleError(err: any): void {
   console.error(err);
   core.setFailed(`Unhandled error: ${err}`);
+}
+
+function timeout(ms: number): Promise<never> {
+  return new Promise((resolve, reject) => setTimeout(reject, ms));
 }
 
 console.log("Hello World");
