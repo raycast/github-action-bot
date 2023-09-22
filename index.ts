@@ -9,9 +9,10 @@ async function main(): Promise<void> {
   const token = process.env.GITHUB_ACCESS_TOKEN as string;
   const script = process.env.SCRIPT as string;
 
-  console.log(script);
+  console.log(context);
 
-  // const github = getOctokit(token);
+  const github = getOctokit(token);
+  console.log(github);
 
   // const result = await github.rest.repos.getContent({
   //   mediaType: {
