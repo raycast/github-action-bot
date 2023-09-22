@@ -10,7 +10,11 @@ async function main(): Promise<void> {
   const token = process.env.GITHUB_ACCESS_TOKEN as string;
   const script = process.env.SCRIPT as string;
 
-  const github = getOctokit(token, { request: defaultGitHubOptions });
+  console.log(defaultGitHubOptions);
+
+  const github = getOctokit(token, {
+    request: { ...defaultGitHubOptions, timeout: 10000 },
+  });
 
   const result = await github.rest.repos.getContent({
     mediaType: {
