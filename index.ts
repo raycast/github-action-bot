@@ -11,8 +11,6 @@ async function main(): Promise<void> {
   const token = process.env.GITHUB_ACCESS_TOKEN as string;
   const script = process.env.SCRIPT as string;
 
-  console.log(defaultGitHubOptions);
-
   const github = getOctokit(
     token,
     {
@@ -24,41 +22,26 @@ async function main(): Promise<void> {
     requestLog
   );
 
-  const result = await Promise.race([
-    timeout(10000),
-    github.rest.repos.getContent({
-      mediaType: {
-        format: "raw",
-      },
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      path: script,
-    }),
-  ]);
+  const result = await github.rest.repos.getContent({
+    mediaType: {
+      format: "raw",
+    },
+    owner: context.repo.owner,
+    repo: context.repo.repo,
+    path: script,
+  });
 
-  console.log(result.data);
-  console.log("ok");
-  process.exit(0);
+  // @ts-ignore
+  fs.writeFileSync("./bot.ts", result.data);
 
-  // // @ts-ignore
-  // fs.writeFileSync("./bot.ts", result.data);
-
-  // console.log(result.data);
-
-  // await require("./bot.ts")({
-  //   github,
-  //   context,
-  //   core,
-  // });
+  await require("./bot.ts")({
+    github,
+    context,
+    core,
+  });
 }
 
 function handleError(err: any): void {
   console.error(err);
   core.setFailed(`Unhandled error: ${err}`);
 }
-
-function timeout(ms: number): Promise<never> {
-  return new Promise((resolve, reject) => setTimeout(reject, ms));
-}
-
-console.log("Hello World");
