@@ -16,19 +16,22 @@ async function main(): Promise<void> {
     request: { ...defaultGitHubOptions, timeout: 10000 },
   });
 
-  const result = await Promise.race([
-    timeout(10000),
-    github.rest.repos.getContent({
-      mediaType: {
-        format: "raw",
-      },
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      path: script,
-    }),
-  ]);
+  await timeout(1000);
 
-  console.log(result.data);
+  // const result = await Promise.race([
+  //   timeout(10000),
+  //   github.rest.repos.getContent({
+  //     mediaType: {
+  //       format: "raw",
+  //     },
+  //     owner: context.repo.owner,
+  //     repo: context.repo.repo,
+  //     path: script,
+  //   }),
+  // ]);
+
+  // console.log(result.data);
+  console.log("ok");
   process.exit(0);
 
   // // @ts-ignore
