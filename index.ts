@@ -6,8 +6,8 @@ process.on("unhandledRejection", handleError);
 main().catch(handleError);
 
 async function main(): Promise<void> {
-  const token = core.getInput("github-token", { required: true });
-  const script = core.getInput("script", { required: true });
+  const token = process.env.GITHUB_TOKEN as string;
+  const script = process.env.SCRIPT as string;
 
   const github = getOctokit(token);
 
@@ -21,9 +21,9 @@ async function main(): Promise<void> {
   });
 
   // @ts-ignore
-  fs.writeFileSync("./issue-bot.ts", result.data);
+  fs.writeFileSync("./bot.ts", result.data);
 
-  await require("./issue-bot.ts")({
+  await require("./bot.ts")({
     github,
     context,
     core,
