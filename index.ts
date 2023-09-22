@@ -12,16 +12,17 @@ async function main(): Promise<void> {
   console.log(context);
 
   const github = getOctokit(token);
-  console.log(github);
 
-  // const result = await github.rest.repos.getContent({
-  //   mediaType: {
-  //     format: "raw",
-  //   },
-  //   owner: context.repo.owner,
-  //   repo: context.repo.repo,
-  //   path: script,
-  // });
+  const result = await github.rest.repos.getContent({
+    mediaType: {
+      format: "raw",
+    },
+    owner: context.repo.owner,
+    repo: context.repo.repo,
+    path: script,
+  });
+
+  console.log(result.data);
 
   // // @ts-ignore
   // fs.writeFileSync("./bot.ts", result.data);
