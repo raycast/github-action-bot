@@ -1,40 +1,41 @@
-// import { context, getOctokit } from "@actions/github";
-// import * as core from "@actions/core";
-// import fs from "fs";
+import { context, getOctokit } from "@actions/github";
+import * as core from "@actions/core";
+import fs from "fs";
 
-// process.on("unhandledRejection", handleError);
-// main().catch(handleError);
+process.on("unhandledRejection", handleError);
+main().catch(handleError);
 
-// async function main(): Promise<void> {
-//   const token = process.env.GITHUB_TOKEN as string;
-//   const script = process.env.SCRIPT as string;
+async function main(): Promise<void> {
+  console.log("Hello World");
+  // const token = process.env.GITHUB_TOKEN as string;
+  // const script = process.env.SCRIPT as string;
 
-//   const github = getOctokit(token);
+  // const github = getOctokit(token);
 
-//   const result = await github.rest.repos.getContent({
-//     mediaType: {
-//       format: "raw",
-//     },
-//     owner: context.repo.owner,
-//     repo: context.repo.repo,
-//     path: script,
-//   });
+  // const result = await github.rest.repos.getContent({
+  //   mediaType: {
+  //     format: "raw",
+  //   },
+  //   owner: context.repo.owner,
+  //   repo: context.repo.repo,
+  //   path: script,
+  // });
 
-//   // @ts-ignore
-//   fs.writeFileSync("./bot.ts", result.data);
+  // // @ts-ignore
+  // fs.writeFileSync("./bot.ts", result.data);
 
-//   console.log(result.data);
+  // console.log(result.data);
 
-//   // await require("./bot.ts")({
-//   //   github,
-//   //   context,
-//   //   core,
-//   // });
-// }
+  // await require("./bot.ts")({
+  //   github,
+  //   context,
+  //   core,
+  // });
+}
 
-// function handleError(err: any): void {
-//   console.error(err);
-//   core.setFailed(`Unhandled error: ${err}`);
-// }
+function handleError(err: any): void {
+  console.error(err);
+  core.setFailed(`Unhandled error: ${err}`);
+}
 
 console.log("Hello World");
