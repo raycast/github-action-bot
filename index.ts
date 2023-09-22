@@ -16,8 +16,10 @@ async function main(): Promise<void> {
   const github = getOctokit(
     token,
     {
+      ...defaultGitHubOptions,
       log: console,
-      request: { ...defaultGitHubOptions, timeout: 10000 },
+      retry: { enabled: false },
+      request: { ...defaultGitHubOptions.request, timeout: 10000 },
     },
     requestLog
   );
