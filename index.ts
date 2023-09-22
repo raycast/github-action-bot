@@ -1,5 +1,6 @@
 import { context, getOctokit } from "@actions/github";
 import { defaults as defaultGitHubOptions } from "@actions/github/lib/utils";
+import { requestLog } from "@octokit/plugin-request-log";
 import * as core from "@actions/core";
 import fs from "fs";
 
@@ -12,25 +13,28 @@ async function main(): Promise<void> {
 
   console.log(defaultGitHubOptions);
 
-  const github = getOctokit(token, {
-    request: { ...defaultGitHubOptions, timeout: 10000 },
-  });
+  const github = getOctokit(
+    token,
+    {
+      log: console,
+      request: { ...defaultGitHubOptions, timeout: 10000 },
+    },
+    requestLog
+  );
 
-  await timeout(1000);
+  const result = await Promise.race([
+    timeout(10000),
+    github.rest.repos.getContent({
+      mediaType: {
+        format: "raw",
+      },
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      path: script,
+    }),
+  ]);
 
-  // const result = await Promise.race([
-  //   timeout(10000),
-  //   github.rest.repos.getContent({
-  //     mediaType: {
-  //       format: "raw",
-  //     },
-  //     owner: context.repo.owner,
-  //     repo: context.repo.repo,
-  //     path: script,
-  //   }),
-  // ]);
-
-  // console.log(result.data);
+  console.log(result.data);
   console.log("ok");
   process.exit(0);
 
