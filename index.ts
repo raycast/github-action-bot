@@ -6,9 +6,10 @@ process.on("unhandledRejection", handleError);
 main().catch(handleError);
 
 async function main(): Promise<void> {
-  console.log("Hello World");
-  // const token = process.env.GITHUB_TOKEN as string;
-  // const script = process.env.SCRIPT as string;
+  const token = process.env.GITHUB_ACCESS_TOKEN as string;
+  const script = process.env.SCRIPT as string;
+
+  console.log(script);
 
   // const github = getOctokit(token);
 
