@@ -34,7 +34,7 @@ async function main(): Promise<void> {
   // @ts-ignore
   fs.writeFileSync("./bot.ts", result.data);
 
-  await require("./bot.ts")({
+  await require("./bot.ts").default({
     github,
     context,
     core,
